@@ -50,5 +50,6 @@ On the top of script you can chose the vehicle that spawn and the coords.
     <td>The cost of renting a kart.</td>
   </tr>
 </table>
+
 # Thanks
 If you have downloaded the script I hope you enjoy it. This script is made for <a href="">La Linea RP</a>
