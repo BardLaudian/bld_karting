@@ -42,4 +42,4 @@ On the top of script you can chose the vehicle that spawn and the coords.
 </table>
 
 # Thanks
-if you have downloaded the script I hope you enjoy it, this is my first script for FiveM. This script is made for <a href="">La Linea RP</a>
+If you have downloaded the script I hope you enjoy it. This script is made for <a href="">La Linea RP</a>
