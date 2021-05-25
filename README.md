@@ -6,8 +6,8 @@ This script is for **ESX**.
 
 # Dependecies
 This script don't have dependencies but i use then with a ADDON kart and a map:
-- This is the <a href="">kart</a>
-- This is the <a href="">map</a>
+- This is the <a href="https://www.gta5-mods.com/vehicles/shifter-kart-125cc-addon-replace">kart</a>
+- This is the <a href="https://forum.cfx.re/t/map-karting-track-race/2270220">map</a>
 
 # Instalation
 The installation is like other scripts, download the repository and put bld_karting inside of your resources folder.
