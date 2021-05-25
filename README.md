@@ -14,6 +14,8 @@ The installation is like other scripts, download the repository and put bld_kart
 
 # Mini conf
 On the top of script you can chose the vehicle that spawn and the coords.
+
+**Client**
 <table>
   <tr>
     <th>cars</th>
@@ -41,5 +43,12 @@ On the top of script you can chose the vehicle that spawn and the coords.
   </tr>
 </table>
 
+**Server**
+<table>
+  <tr>
+    <th>money</th>
+    <td>The cost of renting a kart.</td>
+  </tr>
+</table>
 # Thanks
 If you have downloaded the script I hope you enjoy it. This script is made for <a href="">La Linea RP</a>
