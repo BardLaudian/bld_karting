@@ -2,18 +2,20 @@
 Simple script for rent a kart and if the person get off form the zone, it delete the kart. 
 This script is for **ESX**.
 
-# <a href="">Preview</a>
+# <a href="" target="_blank">Preview</a>
 
 # Dependecies
 This script don't have dependencies but i use then with a ADDON kart and a map:
-- This is the <a href="">kart</a>
-- This is the <a href="">map</a>
+- This is the <a href="https://www.gta5-mods.com/vehicles/shifter-kart-125cc-addon-replace" target="_blank">kart</a>
+- This is the <a href="https://forum.cfx.re/t/map-karting-track-race/2270220" target="_blank">map</a>
 
 # Instalation
 The installation is like other scripts, download the repository and put bld_karting inside of your resources folder.
 
 # Mini conf
 On the top of script you can chose the vehicle that spawn and the coords.
+
+**Client**
 <table>
   <tr>
     <th>cars</th>
@@ -41,5 +43,13 @@ On the top of script you can chose the vehicle that spawn and the coords.
   </tr>
 </table>
 
+**Server**
+<table>
+  <tr>
+    <th>money</th>
+    <td>The cost of renting a kart.</td>
+  </tr>
+</table>
+
 # Thanks
-If you have downloaded the script I hope you enjoy it. This script is made for <a href="">La Linea RP</a>
+If you have downloaded the script I hope you enjoy it. This script is made for <a href="https://discord.gg/aK3CK8CDxP">La Linea RP</a>
