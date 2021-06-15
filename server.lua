@@ -12,6 +12,6 @@ AddEventHandler('blb_karting:cobro', function()
 	elseif xPlayer.getAccount('bank').money >= money then
 		xPlayer.removeAccountMoney('bank', money)
 	else
-		TriggerEvent("pNotify:SendNotification", {text = "¡Se te ha quitado el vehiculo!", type = "error", timeout = 4000, layout = "centerRight"})
+		ESX.ShowNotification("You don't have money to pay")
 	end
 end)

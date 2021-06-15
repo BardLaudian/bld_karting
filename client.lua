@@ -1,41 +1,44 @@
 ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-cars = 'kart'
 local haveKart = 0
 local kart = 0
 
+local cars = 'kart'
+
+local rentpoint = vector3(-161.89416503906, -2134.3852539062, 16.705030441284)
+local returnpoint = vector3(-160.38623046875, -2137.6467285156, 16.705018997192)
+local spawnpoint = vector3(-160.79, -2141.76, 16.71)
+local areapoint = vector3(-85.162, -2067.108, 21.797)
+local areazone = 175
+
+-- 
 Citizen.CreateThread(function()
 	while true do
 		local coords = GetEntityCoords(PlayerPedId())
-		Citizen.Wait(10)
-		if GetDistanceBetweenCoords(coords, -161.89416503906, -2134.3852539062, 16.705030441284, true) < 17 then 
-			DrawMarker(36, -161.89416503906, -2134.3852539062, 16.705030441284, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.7, 0.7, 0.7, 0, 255, 68, 255, false, true, 2, false, false, false, false)
-			if GetDistanceBetweenCoords(coords, -161.89416503906, -2134.3852539062, 16.705030441284, true) < 1.5 then
+		if haveKart == 0 and #(coords - rentpoint) < 15 then
+			DrawMarker(36, rentpoint.x, rentpoint.y, rentpoint.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.7, 0.7, 0.7, 0, 255, 68, 255, false, true, 2, false, false, false, false)
+			if #(coords - rentpoint) < 1.5 then
 				ESX.ShowHelpNotification('Pulsa ~INPUT_CONTEXT~ para alquilar un kart por ~y~150$~s~')
-				if IsControlJustReleased(0, 38) then 
-					if haveKart == 0 then
-						spawnCar(cars)
-						TriggerServerEvent('blb_karting:cobro')
-						haveKart = 1
-					else
-						TriggerEvent("pNotify:SendNotification", {text = "¡Ya tienes un kart fuera!", type = "error", timeout = 6000, layout = "centerRight"})
-					end
+				if IsControlJustReleased(0, 38) then
+					spawnCar(cars)
+					TriggerServerEvent('blb_karting:cobro')
+					haveKart = 1
 				end 
 			end 
 		end
-
-		if haveKart == 1 and GetDistanceBetweenCoords(coords, -160.38623046875, -2137.6467285156, 16.705018997192, true) < 10 then
-			DrawMarker(27, -160.38623046875, -2137.6467285156, 15.705018997192, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 255, 0, 0, 255, false, true, 2, false, false, false, false)
-        	if haveKart == 1 and GetDistanceBetweenCoords(coords, -160.38623046875, -2137.6467285156, 16.705018997192, true) < 1.5 then
+		if haveKart == 1 and #(coords - returnpoint) < 10 then
+			DrawMarker(27, returnpoint.x, returnpoint.y, returnpoint.z-1, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 255, 0, 0, 255, false, true, 2, false, false, false, false)
+			if #(coords - returnpoint) < 1.5 then
 				ESX.ShowHelpNotification('Pulsa ~INPUT_CONTEXT~ para aparcar el vehiculo')
-		  		if IsControlJustReleased(0, 38) then 
-				    DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
-          	        haveKart = 0
+				if IsControlJustReleased(0, 38) then 
+					Citizen.Wait(500)
+					DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
+					haveKart = 0
 				end
-		  	end
+			end
 		end
-
+		Citizen.Wait(5)
 	end
 end)
 
@@ -48,10 +51,9 @@ function spawnCar(car)
         Citizen.Wait(1)
     end
 
-    --local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), false))
-    kart = CreateVehicle(car, -160.79, -2141.76, 16.71, 286.0, true, false)
+    kart = CreateVehicle(car, spawnpoint.x, spawnpoint.y, spawnpoint.z, 286.0, true, false)
     SetEntityAsMissionEntity(kart, true, true)
-    exports["LegacyFuel"]:SetFuel(kart, 100)
+    --exports["LegacyFuel"]:SetFuel(kart, 100)
 
     TaskWarpPedIntoVehicle(PlayerPedId(), kart, -1)
 end
@@ -59,21 +61,33 @@ end
 Citizen.CreateThread(
 	function()
 		while true do
-			Wait(1000)
+			Wait(3000)
             local coords = GetEntityCoords(PlayerPedId())
-			if haveKart == 1 and GetDistanceBetweenCoords(coords, -85.162, -2067.108, 21.797, true) > 175 then
-				TriggerEvent("pNotify:SendNotification", {text = "Tienes 10 segundos para volver con el vehiculo a la pista", type = "success", timeout = 3000, layout = "centerRight"})
-				print(kart)
-				Wait(5000)
-				if haveKart == 1 and GetDistanceBetweenCoords(coords, -85.162, -2067.108, 21.797, true) > 175 then
-					TriggerEvent("pNotify:SendNotification", {text = "Tienes 5 segundos para volver con el vehiculo a la pista", type = "success", timeout = 2500, layout = "centerRight"})
+			if haveKart == 1 and (#(coords - areapoint) > areazone) then
+				ESX.ShowNotification("You have 10 seconds to return the vehicle to the track")
+				Wait(5000)	
+				if #(coords - areapoint) > areazone then
+					ESX.ShowNotification("You have 5 seconds to return the vehicle to the track")
 					Wait(5000)
-					TriggerEvent("pNotify:SendNotification", {text = "¡Se te ha quitado el vehiculo!", type = "error", timeout = 4000, layout = "centerRight"})
-					SetEntityAsNoLongerNeeded(kart)
-					DeleteEntity(kart)
-                    haveKart = 0
+					if #(coords - areapoint) > areazone then
+						ESX.ShowNotification("Your vehicle has been taken away for not following the directions!")
+						SetEntityAsNoLongerNeeded(kart)
+						DeleteEntity(kart)
+                    	haveKart = 0
+					end
 				end
 			end
 		end
 	end
 )
+
+Citizen.CreateThread(function()
+	local blip = AddBlipForCoord(rentpoint.x, rentpoint.y, rentpoint.z)
+	SetBlipSprite(blip , 531)
+	SetBlipAsShortRange(blip, true)
+	SetBlipColour(blip, 28)
+	SetBlipScale(blip, 0.7)
+	BeginTextCommandSetBlipName("STRING")
+	AddTextComponentString("Karting")
+	EndTextCommandSetBlipName(blip)
+end)
