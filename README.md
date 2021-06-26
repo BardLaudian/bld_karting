@@ -2,7 +2,7 @@
 Simple script for rent a kart and if the person get off form the zone, it delete the kart. 
 This script is for **ESX**.
 
-# <a href="" target="_blank">Preview</a>
+# <a href="https://streamable.com/o5xmbn" target="_blank">Preview</a>
 
 # Dependecies
 This script don't have dependencies but i use then with a ADDON kart and a map:
