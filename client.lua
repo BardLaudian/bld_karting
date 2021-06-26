@@ -19,29 +19,39 @@ Citizen.CreateThread(function()
 		Wait(w)
 		local coords = GetEntityCoords(PlayerPedId())
 		if haveKart == 0 and #(coords - rentpoint) < 15 then
+			w = 0
 			DrawMarker(36, rentpoint.x, rentpoint.y, rentpoint.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.7, 0.7, 0.7, 0, 255, 68, 255, false, true, 2, false, false, false, false)
 			if #(coords - rentpoint) < 1.5 then
 				ESX.ShowHelpNotification('Press ~INPUT_CONTEXT~ to rent a kart for ~y~150$~s~')
-				if IsControlJustReleased(0, 38) then
+				if IsControlJustPressed(0, 38) then
 					spawnCar(cars)
 					TriggerServerEvent('blb_karting:cobro')
 					haveKart = 1
-				else
-					ESX.ShowNotification("You already have a kart out!")
 				end 
 			end 
 		else
 			if w ~= 150 then w = 150 end
 		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	local w = 150
+	while true do
+		Wait(w)
+		local coords = GetEntityCoords(PlayerPedId())
 		if haveKart == 1 and #(coords - returnpoint) < 10 then
+			w = 0
 			DrawMarker(27, returnpoint.x, returnpoint.y, returnpoint.z-1, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 255, 0, 0, 255, false, true, 2, false, false, false, false)
 			if #(coords - returnpoint) < 1.5 then
 				ESX.ShowHelpNotification('Press ~INPUT_CONTEXT~ to park the vehicle')
-				if IsControlJustReleased(0, 38) then 
+				if IsControlJustPressed(0, 38) then 
 					DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
 					haveKart = 0
 				end
 			end
+		else
+			if w ~= 150 then w = 150 end
 		end
 	end
 end)
@@ -57,7 +67,6 @@ function spawnCar(car)
 
     kart = CreateVehicle(car, spawnpoint.x, spawnpoint.y, spawnpoint.z, 286.0, true, false)
     SetEntityAsMissionEntity(kart, true, true)
-    --exports["LegacyFuel"]:SetFuel(kart, 100)
 
     TaskWarpPedIntoVehicle(PlayerPedId(), kart, -1)
 end
