@@ -14,31 +14,35 @@ local areazone = 175
 
 -- 
 Citizen.CreateThread(function()
+	local w = 150
 	while true do
+		Wait(w)
 		local coords = GetEntityCoords(PlayerPedId())
 		if haveKart == 0 and #(coords - rentpoint) < 15 then
 			DrawMarker(36, rentpoint.x, rentpoint.y, rentpoint.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.7, 0.7, 0.7, 0, 255, 68, 255, false, true, 2, false, false, false, false)
 			if #(coords - rentpoint) < 1.5 then
-				ESX.ShowHelpNotification('Pulsa ~INPUT_CONTEXT~ para alquilar un kart por ~y~150$~s~')
+				ESX.ShowHelpNotification('Press ~INPUT_CONTEXT~ to rent a kart for ~y~150$~s~')
 				if IsControlJustReleased(0, 38) then
 					spawnCar(cars)
 					TriggerServerEvent('blb_karting:cobro')
 					haveKart = 1
+				else
+					ESX.ShowNotification("You already have a kart out!")
 				end 
 			end 
+		else
+			if w ~= 150 then w = 150 end
 		end
 		if haveKart == 1 and #(coords - returnpoint) < 10 then
 			DrawMarker(27, returnpoint.x, returnpoint.y, returnpoint.z-1, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 255, 0, 0, 255, false, true, 2, false, false, false, false)
 			if #(coords - returnpoint) < 1.5 then
-				ESX.ShowHelpNotification('Pulsa ~INPUT_CONTEXT~ para aparcar el vehiculo')
+				ESX.ShowHelpNotification('Press ~INPUT_CONTEXT~ to park the vehicle')
 				if IsControlJustReleased(0, 38) then 
-					Citizen.Wait(500)
 					DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
 					haveKart = 0
 				end
 			end
 		end
-		Citizen.Wait(5)
 	end
 end)
 
@@ -48,7 +52,7 @@ function spawnCar(car)
     RequestModel(car)
     while not HasModelLoaded(car) do
         RequestModel(car)
-        Citizen.Wait(1)
+        Wait(1)
     end
 
     kart = CreateVehicle(car, spawnpoint.x, spawnpoint.y, spawnpoint.z, 286.0, true, false)
