@@ -52,4 +52,4 @@ On the top of script you can chose the vehicle that spawn and the coords.
 </table>
 
 # Thanks
-If you have downloaded the script I hope you enjoy it. This script is made for <a href="https://discord.gg/aK3CK8CDxP">La Linea RP</a>
+If you have downloaded the script I hope you enjoy it. You can see my <a href="https://bardlaudian.tebex.io/">store</a>
